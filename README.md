@@ -155,18 +155,6 @@ TacticalMedCard cuenta con versiones totalmente operativas para cada entorno:
 
 ---
 
-## 🛠️ Instalación & Despliegue
-
-### Despliegue en GitHub Pages (Gratis en 1 Minuto)
-1. Crea un repositorio público en tu cuenta de GitHub (ej. `tactical-medcard`).
-2. Sube el archivo `index.html` de la carpeta `TacticalMedCard-Web` a la raíz del repositorio.
-3. Ve a **Settings > Pages** en el repositorio.
-4. En **Branch**, selecciona `main` (carpeta `/root`) y presiona **Save**.
-5. Tu aplicación estará en vivo en:  
-   `https://<tu-usuario>.github.io/tactical-medcard/`
-
----
-
 ## 🛡️ Autoría, Créditos & Licencia
 
 - **Diseño & Arquitectura**: **Spectre 242** (Owner of **Foxtrot Concepts**).
