@@ -15,7 +15,7 @@
 </div>
 
 ---
-
+https://spektra242.github.io/TacticalMedCard/ 
 ## 📌 Descripción General
 
 **TacticalMedCard** es una plataforma integral diseñada para la creación, personalización y producción de credenciales médicas de emergencia de alta resistencia física e información clínica estandarizada para operaciones en entornos hostiles.
