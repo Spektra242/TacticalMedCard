@@ -6,6 +6,13 @@
   <title>TacticalMedCard — Sistema de Tarjetas Médicas de Rescate & Outdoor</title>
   <meta name="description" content="Plataforma de credenciales médicas de emergencia en formato estándar CR-80 para rescate, TCCC, SAR y operaciones outdoor.">
 
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="TacticalMedCard">
+  <link rel="manifest" href="manifest.json">
+
   <!-- Estilos Modulares y Optimizados -->
   <style>
 /* === css/base.css === */
@@ -1490,6 +1497,233 @@ input[type="checkbox"]:checked + .toggle-switch::after {
   }
 }
 
+/* ==========================================================================
+   SELECTOR DE ORIENTACIÓN (HORIZONTAL VS VERTICAL)
+   ========================================================================== */
+.orientation-toggle-wrap {
+  display: flex;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 2px;
+  gap: 2px;
+}
+
+.orientation-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  border-radius: calc(var(--radius-sm) - 2px);
+  background: transparent;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.orientation-btn:hover {
+  color: var(--text-primary);
+}
+
+.orientation-btn.active {
+  background-color: var(--accent-primary);
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   MODAL DE FONDO DE PANTALLA SOS (LOCKSCREEN)
+   ========================================================================== */
+.lockscreen-modal-body {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 0;
+  flex-wrap: wrap;
+}
+
+.phone-mockup-frame {
+  width: 260px;
+  height: 520px;
+  background: #000000;
+  border-radius: 36px;
+  border: 4px solid #334155;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.phone-speaker-notch {
+  width: 90px;
+  height: 18px;
+  background: #1e293b;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  margin: 0 auto;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
+
+.phone-screen-content {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#lockscreenCanvas {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.phone-clock-overlay {
+  position: absolute;
+  top: 38px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #ffffff;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.mockup-clock-time {
+  font-size: 38px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.mockup-clock-date {
+  font-size: 11px;
+  font-weight: 600;
+  opacity: 0.85;
+  margin-top: 4px;
+  text-transform: capitalize;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5);
+}
+
+.lockscreen-controls-panel {
+  flex: 1;
+  min-width: 260px;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lockscreen-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.lockscreen-feature-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Modal de Instalación PWA */
+.pwa-instruction-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+}
+
+.pwa-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   MODAL: PLAN SAR & FLOAT PLAN
+   ========================================================================== */
+.sar-plan-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .sar-plan-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   MODAL: SCANNER QR HUD
+   ========================================================================== */
+.scanner-scan-line {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #38bdf8;
+  box-shadow: 0 0 10px #38bdf8, 0 0 20px #38bdf8;
+  animation: scanLineAnim 2s linear infinite alternate;
+}
+
+@keyframes scanLineAnim {
+  0% { top: 15%; }
+  100% { top: 85%; }
+}
+
+/* ==========================================================================
+   TABLA PREVIEW CSV
+   ========================================================================== */
+.csv-preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.csv-preview-table th {
+  background: var(--bg-surface-elevated);
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.csv-preview-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-main);
+}
+
 
 /* === css/card.css === */
 /* ==========================================================================
@@ -2140,6 +2374,335 @@ input[type="checkbox"]:checked + .toggle-switch::after {
   --card-alert-text: var(--custom-card-alert-text, #991b1b);
 }
 
+/* ==========================================================================
+   ORIENTACIÓN VERTICAL (CR-80 RETRATO: 54 × 85.6 MM)
+   Ideal para portacredenciales tácticos de cuello, arnés y chaleco MOLLE
+   ========================================================================== */
+.tactical-card.card-orientation-vertical {
+  width: 53.98mm !important;
+  height: 85.60mm !important;
+  padding: 2.2mm 2.2mm !important;
+  border-radius: var(--card-radius-mm);
+}
+
+.tactical-card.card-orientation-vertical .card-header-bar {
+  padding: 1mm 1.5mm;
+  font-size: 5.2pt;
+  margin-bottom: 1mm;
+}
+
+.tactical-card.card-orientation-vertical .card-main-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1mm;
+  margin-bottom: 1mm;
+}
+
+.tactical-card.card-orientation-vertical .card-ident-col {
+  width: 100%;
+}
+
+.tactical-card.card-orientation-vertical .card-visual-col {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5mm;
+}
+
+.tactical-card.card-orientation-vertical .person-name {
+  font-size: 7.5pt;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.tactical-card.card-orientation-vertical .callsign-badge {
+  text-align: center;
+  margin-bottom: 0.8mm;
+}
+
+.tactical-card.card-orientation-vertical .blood-type-box {
+  min-width: 20mm;
+  padding: 1mm 1.5mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tactical-card.card-orientation-vertical .blood-value {
+  font-size: 11pt;
+  line-height: 1;
+}
+
+.tactical-card.card-orientation-vertical .card-meta-list {
+  font-size: 4.8pt;
+  line-height: 1.2;
+}
+
+.tactical-card.card-orientation-vertical .card-medical-grid {
+  grid-template-columns: 1fr;
+  gap: 1mm;
+}
+
+.tactical-card.card-orientation-vertical .card-medical-box {
+  padding: 0.8mm 1.2mm;
+  min-height: auto;
+}
+
+.tactical-card.card-orientation-vertical .card-field-label {
+  font-size: 3.8pt;
+}
+
+.tactical-card.card-orientation-vertical .field-value {
+  font-size: 4.8pt;
+  line-height: 1.15;
+}
+
+/* Dorso en orientación vertical */
+.tactical-card.card-orientation-vertical .card-back-content {
+  flex-direction: column;
+  gap: 1mm;
+}
+
+.tactical-card.card-orientation-vertical .back-info-column {
+  width: 100%;
+}
+
+.tactical-card.card-orientation-vertical .back-visual-column {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.5mm;
+}
+
+.tactical-card.card-orientation-vertical .qr-code-wrapper {
+  width: 20mm;
+  height: 20mm;
+}
+
+.tactical-card.card-orientation-vertical .qr-code-wrapper canvas,
+.tactical-card.card-orientation-vertical .qr-code-wrapper img {
+  width: 20mm !important;
+  height: 20mm !important;
+}
+
+/* MIST en vertical */
+.tactical-card.card-orientation-vertical .tccc-card-content {
+  font-size: 4.5pt;
+}
+
+.tactical-card.card-orientation-vertical .tccc-ident-row {
+  font-size: 4.8pt;
+  flex-wrap: wrap;
+}
+
+/* ==========================================================================
+   BRAZALETE TÁCTICO DE MUÑECA & GUÍA MARCH PAWS (HOJA A4)
+   ========================================================================== */
+.sheet-wristband-section {
+  margin-top: 5mm;
+  padding-top: 3.5mm;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.sheet-wristband-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 6.5pt;
+  font-weight: 800;
+  color: #475569;
+  letter-spacing: 0.05em;
+  margin-bottom: 2mm;
+}
+
+.tactical-wristband-strip {
+  width: 100%;
+  height: 16mm;
+  background: #ffffff;
+  border: 1.5px dashed #475569;
+  border-radius: 2mm;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 1.5mm 3mm;
+  gap: 3mm;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  user-select: none;
+  overflow: hidden;
+  position: relative;
+}
+
+.wristband-adhesive-tab {
+  width: 25mm;
+  height: 100%;
+  background: #f1f5f9;
+  border-right: 1.5px dashed #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4.5pt;
+  font-weight: 700;
+  color: #64748b;
+  text-align: center;
+  line-height: 1.1;
+  padding: 1mm;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.wristband-blood-badge {
+  background: #b91c1c;
+  color: #ffffff;
+  font-weight: 900;
+  font-size: 11pt;
+  padding: 1mm 2.5mm;
+  border-radius: 1.5mm;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wristband-blood-badge small {
+  font-size: 3.5pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.wristband-ident-block {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5mm;
+  min-width: 0;
+}
+
+.wristband-name {
+  font-size: 7.5pt;
+  font-weight: 900;
+  color: #0f172a;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+}
+
+.wristband-subtext {
+  font-size: 5pt;
+  font-weight: 700;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wristband-allergies-badge {
+  background: #fee2e2;
+  border: 1px solid #f87171;
+  color: #991b1b;
+  font-size: 5pt;
+  font-weight: 800;
+  padding: 1mm 2mm;
+  border-radius: 1mm;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 50mm;
+}
+
+.wristband-qr-wrap {
+  width: 13mm;
+  height: 13mm;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wristband-qr-wrap img,
+.wristband-qr-wrap canvas {
+  width: 13mm !important;
+  height: 13mm !important;
+}
+
+/* Guía de Triage MARCH PAWS Plegable */
+.march-paws-guide-strip {
+  width: 100%;
+  margin-top: 3mm;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 1.5mm;
+  padding: 1.8mm 2.5mm;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  gap: 2mm;
+  font-size: 4.8pt;
+  color: #1e293b;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.march-step-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3mm;
+}
+
+.march-step-title {
+  font-weight: 900;
+  color: #b91c1c;
+  font-size: 5.2pt;
+}
+
+.march-step-desc {
+  color: #475569;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   PATRONES & TEXTURAS TÁCTICAS DE FONDO (CR-80)
+   ========================================================================== */
+.texture-topographic {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cpath d='M0 40 C40 20 60 70 100 50 C140 30 160 80 160 80 M0 80 C30 60 80 100 120 70 C150 50 160 120 160 120 M0 120 C50 100 70 140 110 110 C140 90 160 150 160 150' fill='none' stroke='%23000000' stroke-width='0.75' stroke-opacity='0.08'/%3E%3C/svg%3E");
+  background-size: cover, 45mm;
+}
+
+.texture-carbon {
+  background: 
+    linear-gradient(27deg, #181c24 5px, transparent 5px) 0 5px,
+    linear-gradient(207deg, #181c24 5px, transparent 5px) 10px 0px,
+    linear-gradient(27deg, #232936 5px, transparent 5px) 0px 10px,
+    linear-gradient(207deg, #232936 5px, transparent 5px) 10px 5px,
+    linear-gradient(90deg, #1e2533 10px, transparent 10px),
+    linear-gradient(#141822 25%, #1c2230 25%, #1c2230 50%, transparent 50%, transparent 75%, #252d3d 75%, #252d3d);
+  background-size: 20px 20px;
+  color: #0f172a;
+}
+
+.texture-grid {
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 3.5mm 3.5mm;
+}
+
+.texture-hex {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='41.56' viewBox='0 0 24 41.56'%3E%3Cpath d='M12 0 L24 6.93 L24 20.78 L12 27.71 L0 20.78 L0 6.93 Z M12 41.56 L24 34.63 L24 20.78 L12 27.71 L0 20.78 L0 34.63 Z' fill='none' stroke='%23000000' stroke-width='0.7' stroke-opacity='0.06'/%3E%3C/svg%3E");
+  background-size: 7mm;
+}
+
+.texture-camo-alpine {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M20 10 Q40 30 15 50 Q-10 70 30 80 Q60 90 50 60 Q40 30 70 20 Q100 10 90 40 Q80 70 110 80 Q130 90 100 110 Q70 120 60 90 Z' fill='%2394a3b8' fill-opacity='0.08'/%3E%3Cpath d='M70 70 Q90 50 110 70 Q130 90 90 110 Q50 120 70 70 Z' fill='%2364748b' fill-opacity='0.06'/%3E%3C/svg%3E");
+  background-size: 32mm;
+}
+
 
 
 /* === css/print.css === */
@@ -2521,6 +3084,18 @@ input[type="checkbox"]:checked + .toggle-switch::after {
     </div>
 
     <div class="header-actions">
+      <button type="button" class="btn btn-secondary btn-sm" id="btnOpenQrScanner" title="Escanear credencial médica con la cámara del dispositivo">
+        <span>📷</span> <span class="btn-text">Escanear QR</span>
+      </button>
+      <button type="button" class="btn btn-secondary btn-sm" id="btnOpenSarPlanModal" title="Crear Plan de Salida Segura SAR y geolocalización GPS">
+        <span>📋</span> <span class="btn-text">Plan SAR</span>
+      </button>
+      <button type="button" class="btn btn-secondary btn-sm" id="btnOpenLockscreenModal" title="Generar fondo de pantalla de bloqueo SOS para smartphone">
+        <span>📱</span> <span class="btn-text">Fondo SOS</span>
+      </button>
+      <button type="button" class="btn btn-secondary btn-sm" id="btnInstallPwa" title="Instalar aplicación en tu celular o computador">
+        <span>📲</span> <span class="btn-text">Instalar App</span>
+      </button>
       <button type="button" class="btn btn-secondary btn-sm" id="btnOpenNfcModal" title="Grabar o leer chip NFC">
         <span>📡</span> <span class="btn-text">Chip NFC</span>
       </button>
@@ -2545,8 +3120,10 @@ input[type="checkbox"]:checked + .toggle-switch::after {
       <div class="patrol-bar">
         <div class="patrol-bar-header">
           <span class="patrol-bar-title">👥 Patrulla & Expedición</span>
-          <div style="display: flex; gap: 6px;">
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
             <button type="button" class="btn btn-secondary btn-sm" id="btnAddPatrolMember" title="Añadir nuevo operador a la patrulla">+ Añadir</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnOpenCsvModal" title="Importar operadores masivamente desde Excel o CSV">📊 Importar CSV</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnBatchPrintPatrol" title="Imprimir lote de credenciales de la patrulla">🖨️ Imprimir Patrulla</button>
             <button type="button" class="btn btn-secondary btn-sm" id="btnSavePatrolFile" title="Guardar patrulla a archivo JSON (Ctrl + S)">💾 Guardar</button>
             <button type="button" class="btn btn-secondary btn-sm" id="btnLoadPatrolFile" title="Cargar patrulla desde archivo JSON (Ctrl + O)">📂 Cargar</button>
             <input type="file" id="inPatrolFileInput" accept=".json,application/json,text/json,text/plain" style="display: none;">
@@ -3004,12 +3581,62 @@ input[type="checkbox"]:checked + .toggle-switch::after {
             </button>
           </div>
 
-          <div class="form-group" style="margin-top: 14px;">
-            <label class="form-label" for="selBackType">Tipo de Reverso de la Credencial</label>
+          <div class="form-row" style="margin-top: 14px;">
+            <div class="form-group">
+              <label class="form-label" for="selOrientation">Orientación de la Credencial</label>
+              <select id="selOrientation" class="form-select">
+                <option value="horizontal" selected>⬌ Horizontal (CR-80 Estándar / Billetera)</option>
+                <option value="vertical">⬍ Vertical (Portacredencial de Pecho / MOLLE)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="selCardTexture">Textura Táctica de Fondo</label>
+              <select id="selCardTexture" class="form-select">
+                <option value="none" selected>Limpio (Color Sólido)</option>
+                <option value="texture-topographic">Curvas de Nivel Topográficas</option>
+                <option value="texture-carbon">Fibra de Carbono</option>
+                <option value="texture-grid">Cuadrícula Militar MGRS</option>
+                <option value="texture-hex">Malla Hexagonal Blindada</option>
+                <option value="texture-camo-alpine">Camuflaje Alpino</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Escudo / Logotipo Personalizado de Unidad -->
+          <div class="form-group" style="margin-top: 10px; background: var(--bg-input); padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+            <label class="form-label" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <span>🛡️ Escudo / Logotipo de Unidad o Club</span>
+              <span style="font-size: 10px; color: var(--text-muted); font-weight: 400;">Reemplaza el logo en la credencial</span>
+            </label>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="width: 44px; height: 44px; border-radius: 6px; border: 1px solid var(--border-strong); background: #000; display: flex; align-items: center; justify-content: center; overflow: hidden; flex-shrink: 0;">
+                <img id="thumbCustomLogo" src="" alt="Escudo" style="display: none; width: 100%; height: 100%; object-fit: contain;">
+                <span id="placeholderCustomLogo" style="font-size: 18px; color: var(--text-muted);">🦊</span>
+              </div>
+              <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <input type="file" id="inCustomLogo" accept="image/*" style="display: none;">
+                <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('inCustomLogo').click()">
+                  📁 Subir Escudo
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="btnRemoveCustomLogo" style="display: none;">
+                  🗑️ Quitar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 10px;">
+            <label class="form-label" for="selBackType">Tipo de Reverso</label>
             <select id="selBackType" class="form-select">
-              <option value="sar_ice" selected>Ficha de Rescate Estándar (Contactos ICE & QR)</option>
-              <option value="tccc_mist">Reporte de Bajas TCCC M.I.S.T. / DD-1380</option>
+              <option value="sar_ice" selected>Ficha de Rescate (ICE & QR)</option>
+              <option value="tccc_mist">Reporte TCCC M.I.S.T. / DD-1380</option>
             </select>
+          </div>
+
+          <div style="margin-top: 10px; margin-bottom: 6px;">
+            <button type="button" class="btn btn-secondary btn-sm" id="btnOpenLockscreenStep5" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px;">
+              <span>📱</span> <strong>Generar Fondo de Pantalla SOS para Celular</strong>
+            </button>
           </div>
 
           <!-- Campos TCCC MIST si está activo -->
@@ -3096,6 +3723,12 @@ input[type="checkbox"]:checked + .toggle-switch::after {
           <button type="button" class="view-mode-btn" id="btnViewPrintSheet">
             📄 Hoja A4
           </button>
+        </div>
+
+        <!-- Selector de Orientación (Horizontal vs Vertical) -->
+        <div class="orientation-toggle-wrap" id="orientationToolbarWrap" title="Cambiar orientación de la credencial">
+          <button type="button" class="orientation-btn active" id="btnOrientH" title="Orientación Horizontal (CR-80 Billetera)">⬌ H</button>
+          <button type="button" class="orientation-btn" id="btnOrientV" title="Orientación Vertical (Lanyard / Pecho MOLLE)">⬍ V</button>
         </div>
 
         <!-- Selector de Caras (Ambas / Frente / Dorso) -->
@@ -3573,6 +4206,61 @@ input[type="checkbox"]:checked + .toggle-switch::after {
                 </div>
               </div>
             </div>
+          <!-- BRAZALETE TÁCTICO DE MUÑECA & GUÍA MARCH PAWS -->
+          <div class="sheet-wristband-section">
+            <div class="sheet-wristband-title">
+              <span>🏷️ BRAZALETE MÉDICO DE MUÑECA / ARNÉS (TYVEK O CINTA LAMINADA)</span>
+              <span>DIMENSIONES: 210 × 16 MM</span>
+            </div>
+
+            <!-- Tira de Brazalete -->
+            <div class="tactical-wristband-strip">
+              <div class="wristband-adhesive-tab">
+                ZONA ADHESIVO
+              </div>
+              <div class="wristband-blood-badge">
+                <span class="bind-wristband-blood placeholder-dimmed">---</span>
+                <small>SANGRE</small>
+              </div>
+              <div class="wristband-ident-block">
+                <span class="wristband-name bind-wristband-name placeholder-dimmed">NOMBRE Y APELLIDO</span>
+                <span class="wristband-subtext bind-wristband-subtext">ID / CONTACTO DE EMERGENCIA</span>
+              </div>
+              <div class="wristband-allergies-badge bind-wristband-allergies">
+                ALERGIAS: NINGUNA
+              </div>
+              <div class="wristband-qr-wrap">
+                <div class="wristband-qr-wrapper"></div>
+              </div>
+            </div>
+
+            <!-- Guía de Trauma MARCH PAWS Plegable -->
+            <div class="march-paws-guide-strip">
+              <div class="march-step-item">
+                <span class="march-step-title">M - HEMORRAGIA</span>
+                <span class="march-step-desc">Torniquete CAT</span>
+              </div>
+              <div class="march-step-item">
+                <span class="march-step-title">A - VÍA AÉREA</span>
+                <span class="march-step-desc">Cánula / Posición</span>
+              </div>
+              <div class="march-step-item">
+                <span class="march-step-title">R - RESPIRACIÓN</span>
+                <span class="march-step-desc">Sello de tórax</span>
+              </div>
+              <div class="march-step-item">
+                <span class="march-step-title">C - CIRCULACIÓN</span>
+                <span class="march-step-desc">Pulsos / Perfusión</span>
+              </div>
+              <div class="march-step-item">
+                <span class="march-step-title">H - HIPOTERMIA</span>
+                <span class="march-step-desc">Manta térmica</span>
+              </div>
+              <div class="march-step-item">
+                <span class="march-step-title">PAWS - PROTOCOLO</span>
+                <span class="march-step-desc">Dolor • Heridas • Férulas</span>
+              </div>
+            </div>
           </div>
 
           <!-- PIE DE HOJA -->
@@ -3717,6 +4405,344 @@ input[type="checkbox"]:checked + .toggle-switch::after {
         <button type="button" class="btn btn-secondary" id="btnCopyNfcPayload">📋 Copiar Texto</button>
         <button type="button" class="btn btn-secondary" id="btnStartNfcRead">🔍 Leer Chip</button>
         <button type="button" class="btn btn-primary" id="btnStartNfcWrite">📡 Grabar Chip</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: GENERADOR DE FONDO DE PANTALLA SOS (LOCKSCREEN)
+       ==================================================================== -->
+  <div class="modal-overlay" id="lockscreenModal" style="display: none;">
+    <div class="modal-dialog" style="max-width: 720px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title-icon">📱</span>
+          <span class="modal-title">Fondo de Pantalla de Bloqueo SOS (Smartphone)</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseLockscreenModal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding-top: 8px;">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+          Genera un fondo de pantalla táctico en alta resolución diseñado para la <strong>pantalla de bloqueo de tu celular</strong>. Permite a los socorristas ver tu grupo sanguíneo, alergias severas y contactos ICE sin desbloquear el teléfono.
+        </p>
+
+        <div class="lockscreen-modal-body">
+          <!-- Mockup Celular con Live Preview -->
+          <div class="phone-mockup-frame">
+            <div class="phone-speaker-notch"></div>
+            <div class="phone-screen-content">
+              <!-- Overlay Reloj y Fecha (Simulación) -->
+              <div class="phone-clock-overlay">
+                <div class="mockup-clock-time">09:41</div>
+                <div class="mockup-clock-date">Miércoles, 14 de Octubre</div>
+              </div>
+              <canvas id="lockscreenCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Panel de Ajustes y Descarga -->
+          <div class="lockscreen-controls-panel">
+            <div class="form-group">
+              <label class="form-label" for="selLockscreenRatio">Proporción de Pantalla</label>
+              <select id="selLockscreenRatio" class="form-select">
+                <option value="19.5:9" selected>📱 19.5:9 (Smartphones modernos: iPhone, Galaxy, Pixel, Xiaomi)</option>
+                <option value="16:9">📱 16:9 (Smartphones estándar / clásicos)</option>
+              </select>
+            </div>
+
+            <div class="lockscreen-feature-item">
+              <span class="lockscreen-feature-icon">🛡️</span>
+              <span><strong>Área Superior Despejada:</strong> Espacio de 38% superior reservado para el reloj, fecha y widgets de tu smartphone.</span>
+            </div>
+
+            <div class="lockscreen-feature-item">
+              <span class="lockscreen-feature-icon">🩸</span>
+              <span><strong>Alerta Médica de Alto Contraste:</strong> Sangre gigante, Alergias en franja de peligro y QR escaneable por la cámara.</span>
+            </div>
+
+            <div class="lockscreen-feature-item">
+              <span class="lockscreen-feature-icon">📞</span>
+              <span><strong>Llamada Directa ICE:</strong> Teléfonos de urgencia visibles de un solo vistazo.</span>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <button type="button" class="btn btn-primary" id="btnDownloadLockscreen" style="width: 100%; padding: 12px; font-weight: 800; font-size: 13px;">
+                ⬇ Descargar Fondo para Celular (PNG HD)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('lockscreenModal').style.display='none'">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: INSTALAR EN CELULAR (PWA)
+       ==================================================================== -->
+  <div class="modal-overlay" id="pwaInstallModal" style="display: none;">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title-icon">📲</span>
+          <span class="modal-title">Instalar TacticalMedCard en tu Celular</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnClosePwaModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;">
+          Puedes instalar esta aplicación directamente en la pantalla de inicio de tu smartphone para acceder a ella en cualquier expedición, <strong>incluso sin conexión a internet</strong>.
+        </p>
+
+        <div style="font-size: 12px; font-weight: 800; color: #38bdf8; margin-bottom: 6px;">🍏 EN IPHONE (SAFARI):</div>
+        <div class="pwa-instruction-step">
+          <div class="pwa-step-num">1</div>
+          <span>Pulsa el botón <strong>Compartir</strong> (icono de cuadrado con flecha hacia arriba) en la barra inferior de Safari.</span>
+        </div>
+        <div class="pwa-instruction-step">
+          <div class="pwa-step-num">2</div>
+          <span>Desplázate hacia abajo y selecciona <strong>"Añadir a pantalla de inicio"</strong>.</span>
+        </div>
+
+        <div style="font-size: 12px; font-weight: 800; color: #10b981; margin-top: 14px; margin-bottom: 6px;">🤖 EN ANDROID (CHROME):</div>
+        <div class="pwa-instruction-step">
+          <div class="pwa-step-num">1</div>
+          <span>Pulsa el menú de <strong>tres puntos (⋮)</strong> arriba a la derecha en Chrome.</span>
+        </div>
+        <div class="pwa-instruction-step">
+          <div class="pwa-step-num">2</div>
+          <span>Toca <strong>"Instalar aplicación"</strong> o <strong>"Añadir a pantalla de inicio"</strong>.</span>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" onclick="document.getElementById('pwaInstallModal').style.display='none'">Entendido</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: PLAN DE SALIDA SEGURA & FICHA SAR (FLOAT PLAN)
+       ==================================================================== -->
+  <div class="modal-overlay" id="sarPlanModal" style="display: none;">
+    <div class="modal-dialog" style="max-width: 820px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title-icon">📋</span>
+          <span class="modal-title">Plan de Salida Segura & Ficha SAR (Float Plan)</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseSarPlanModal">&times;</button>
+      </div>
+      <div class="modal-body" style="padding-top: 8px;">
+        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">
+          Registra tu ruta, tiempos de marcha y coordenadas GPS antes de ingresar a zona agreste. Si se excede la hora límite de retorno (Drop-Dead Time), tu contacto de base podrá alertar de inmediato a Socorro Andino, Carabineros o Guardaparques.
+        </p>
+
+        <div class="sar-plan-grid">
+          <!-- Formulario de Entrada -->
+          <div id="sarPlanForm" style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanActivity">Actividad</label>
+                <input type="text" id="sarPlanActivity" class="form-control" value="Trekking / Montaña" placeholder="Trekking, Escalada, Patrulla...">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanDestination">Ruta o Destino</label>
+                <input type="text" id="sarPlanDestination" class="form-control" placeholder="Ej: Cerro Provincia por San Carlos">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanLeader">Líder / Operador</label>
+                <input type="text" id="sarPlanLeader" class="form-control" placeholder="Nombre completo">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanGroupCount">N° Personas en Grupo</label>
+                <input type="number" id="sarPlanGroupCount" class="form-control" value="1" min="1">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanEntryPoint">Punto de Entrada</label>
+                <input type="text" id="sarPlanEntryPoint" class="form-control" placeholder="Ej: Control Conaf / Puente">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanExitPoint">Punto de Salida</label>
+                <input type="text" id="sarPlanExitPoint" class="form-control" placeholder="Ej: Mismo de entrada">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanStartTime">Hora de Partida</label>
+                <input type="time" id="sarPlanStartTime" class="form-control">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanDropDeadTime" style="color: #ef4444; font-weight: 800;">Hora Límite SAR (Drop-Dead)</label>
+                <input type="time" id="sarPlanDropDeadTime" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="sarPlanGps">Geolocalización GPS (1 Clic)</label>
+              <div style="display: flex; gap: 8px;">
+                <input type="text" id="sarPlanGps" class="form-control" placeholder="Latitud, Longitud (±precisión)">
+                <button type="button" class="btn btn-secondary btn-sm" id="btnGetGpsLocation" style="white-space: nowrap; flex-shrink: 0;">
+                  🛰️ GPS Ahora
+                </button>
+              </div>
+              <div id="sarGpsStatus" style="font-size: 11px; margin-top: 4px; color: var(--text-muted);">Pulsa para obtener tus coordenadas GPS actuales vía satélite.</div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanRadio">Frecuencia Radio VHF/UHF</label>
+                <input type="text" id="sarPlanRadio" class="form-control" placeholder="VHF 146.520 MHz">
+              </div>
+              <div class="form-group" style="margin-bottom: 0;">
+                <label class="form-label" for="sarPlanBaseContact">Contacto de Alerta en Base</label>
+                <input type="text" id="sarPlanBaseContact" class="form-control" placeholder="Nombre y Fono ICE">
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="sarPlanVehicle">Vehículo en Estacionamiento</label>
+              <input type="text" id="sarPlanVehicle" class="form-control" placeholder="Ej: Camioneta Hilux Gris Patente BB-1234">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label class="form-label" for="sarPlanNotes">Notas / Equipo Crítico</label>
+              <input type="text" id="sarPlanNotes" class="form-control" placeholder="Botiquín IFAK, ración de marcha, carpa...">
+            </div>
+          </div>
+
+          <!-- Previsualización Formateada del Plan -->
+          <div style="display: flex; flex-direction: column;">
+            <label class="form-label">Previsualización de Mensaje SAR / WhatsApp</label>
+            <pre id="sarPlanTextPreview" style="background: var(--bg-input); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); padding: 10px; font-size: 10.5px; font-family: var(--font-mono); color: var(--text-main); flex: 1; max-height: 380px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; margin: 0;"></pre>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="flex-wrap: wrap; gap: 8px;">
+        <button type="button" class="btn btn-secondary" id="btnCopyFloatPlan">📋 Copiar Mensaje</button>
+        <button type="button" class="btn btn-secondary" id="btnShareFloatPlan" style="background: #15803d; color: #ffffff; border-color: #16a34a;">💬 Enviar por WhatsApp</button>
+        <button type="button" class="btn btn-primary" id="btnPrintFloatPlan">🖨️ Ficha A4 Guardaparques</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: ESCÁNER DE CÓDIGOS QR TÁCTICOS (CHEQUEO EN TERRENO)
+       ==================================================================== -->
+  <div class="modal-overlay" id="qrScannerModal" style="display: none;">
+    <div class="modal-dialog" style="max-width: 480px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title-icon">📷</span>
+          <span class="modal-title">Lector de Códigos QR Tácticos</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseQrScanner">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="qrScannerStatus" style="font-size: 12px; margin-bottom: 10px; color: var(--text-muted); text-align: center;">
+          Iniciando cámara...
+        </div>
+
+        <!-- Visor de Cámara con Retícula HUD -->
+        <div id="qrScannerVideoWrap" style="position: relative; width: 100%; border-radius: var(--radius-md); overflow: hidden; border: 2px solid var(--border-subtle); background: #000000; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center;">
+          <video id="qrScannerVideo" playsinline style="width: 100%; height: 100%; object-fit: cover;"></video>
+          <canvas id="qrScannerCanvas" style="display: none;"></canvas>
+          <div class="scanner-scan-line"></div>
+          <div style="position: absolute; inset: 24px; border: 2px dashed rgba(56, 189, 248, 0.7); border-radius: 8px; pointer-events: none; box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.45);"></div>
+        </div>
+
+        <!-- Tarjeta de Triaje Emergente (Al Detectar QR) -->
+        <div id="qrScannerResultBox" style="display: none; background: var(--bg-input); border: 1.5px solid var(--border-strong); border-radius: var(--radius-md); padding: 14px; margin-top: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+            <div>
+              <div style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 800;">Operador Identificado:</div>
+              <div id="scanResName" style="font-size: 16px; font-weight: 800; color: #ffffff;">---</div>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-size: 10px; text-transform: uppercase; color: var(--text-muted); font-weight: 800;">Sangre:</div>
+              <div id="scanResBlood" style="font-size: 16px; font-weight: 900; color: #ef4444; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; border-radius: 4px; padding: 2px 8px; display: inline-block;">---</div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 8px; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 4px; padding: 6px 10px;">
+            <span style="font-size: 11px; font-weight: 800; color: #f59e0b;">⚠️ ALERGIAS:</span>
+            <span id="scanResAllergies" style="font-size: 12px; font-weight: 700; color: #ffffff; margin-left: 6px;">---</span>
+          </div>
+
+          <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 12px;">
+            <div style="font-weight: 700; margin-bottom: 2px;">Contenido del Código:</div>
+            <pre id="scanResRaw" style="font-size: 10px; font-family: var(--font-mono); background: rgba(0,0,0,0.4); padding: 6px; border-radius: 4px; max-height: 70px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; margin: 0;"></pre>
+          </div>
+
+          <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <a id="btnScanCallIce" href="#" class="btn btn-primary btn-sm" style="display: none; text-decoration: none; padding: 7px 12px;">📞 Llamar ICE</a>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnScanAddPatrol">👥 Añadir a Patrulla</button>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnScannerRescan">🔄 Escanear Otro</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="QrScannerModule.closeScanner()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL: IMPORTACIÓN MASIVA DE PATRULLAS (EXCEL / CSV)
+       ==================================================================== -->
+  <div class="modal-overlay" id="csvImporterModal" style="display: none;">
+    <div class="modal-dialog" style="max-width: 680px; width: 95%;">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-title-icon">📊</span>
+          <span class="modal-title">Importación Masiva de Patrullas (Excel / CSV)</span>
+        </div>
+        <button type="button" class="modal-close-btn" id="btnCloseCsvModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+          <span style="font-size: 12px; color: var(--text-muted);">Carga nóminas completas de brigadas, clubes o empresas en segundos.</span>
+          <button type="button" class="btn btn-secondary btn-sm" id="btnDownloadCsvTemplate">📥 Descargar Plantilla CSV</button>
+        </div>
+
+        <div style="border: 2px dashed var(--border-subtle); padding: 24px 16px; border-radius: var(--radius-md); text-align: center; background: var(--bg-input); cursor: pointer;" onclick="document.getElementById('inCsvFile').click()">
+          <div style="font-size: 32px; margin-bottom: 6px;">📄</div>
+          <div style="font-weight: 700; font-size: 13px; color: var(--text-main); margin-bottom: 4px;">Haz clic aquí para seleccionar tu archivo CSV</div>
+          <div style="font-size: 11px; color: var(--text-muted);">Compatible con delimitadores de coma (,), punto y coma (;) o tabulación (Excel)</div>
+          <input type="file" id="inCsvFile" accept=".csv,text/csv,text/plain" style="display: none;">
+        </div>
+
+        <div id="csvParseStatus" style="font-size: 12px; margin-top: 10px; color: var(--text-muted); text-align: center;">
+          Selecciona o arrastra un archivo CSV o Excel exportado con la lista de operadores.
+        </div>
+
+        <div id="csvTablePreviewWrap" style="display: none; margin-top: 12px; max-height: 200px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);">
+          <table class="csv-preview-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>RUT/ID</th>
+                <th>Sangre</th>
+                <th>Alergias</th>
+                <th>ICE Fono</th>
+              </tr>
+            </thead>
+            <tbody id="csvPreviewTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="CsvImporterModule.closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="btnConfirmCsvImport" disabled>✓ Importar Operadores</button>
       </div>
     </div>
   </div>
@@ -4211,20 +5237,27 @@ const CardRenderer = (() => {
     const rescue = data.rescue || {};
     const settings = data.settings || {};
 
-    // Sincronizar logotipo Foxtrot con Data URL embebida
-    if (window.AppAssets && window.AppAssets.logo) {
-      document.querySelectorAll('.header-fox-icon').forEach(img => {
-        if (img.src !== window.AppAssets.logo) {
-          img.src = window.AppAssets.logo;
-        }
-      });
-    }
+    // Sincronizar logotipo de cabecera (logo propio de unidad o Foxtrot oficial)
+    const activeLogo = settings.customLogo || (window.AppAssets && window.AppAssets.logo) || 'assets/foxtrot-logo.png';
+    document.querySelectorAll('.header-fox-icon, .sheet-header-logo').forEach(img => {
+      if (img.src !== activeLogo) {
+        img.src = activeLogo;
+      }
+    });
 
-    // 1. Aplicar Plantilla / Tema Visual
+    // 1. Aplicar Plantilla / Tema Visual y Textura Táctica
     const activeDesign = settings.cardDesign || 'design-sar-alpine';
+    const ALL_TEXTURES = ['texture-topographic', 'texture-carbon', 'texture-grid', 'texture-hex', 'texture-camo-alpine'];
+    const activeTexture = settings.cardTexture || 'none';
+
     document.querySelectorAll('.tactical-card, .mini-patch-item').forEach(el => {
       ALL_THEMES.forEach(t => el.classList.remove(t));
       el.classList.add(activeDesign);
+
+      ALL_TEXTURES.forEach(tx => el.classList.remove(tx));
+      if (activeTexture && activeTexture !== 'none') {
+        el.classList.add(activeTexture);
+      }
     });
 
     if (activeDesign === 'design-custom' || settings.customColor) {
@@ -4428,6 +5461,41 @@ const CardRenderer = (() => {
     document.querySelectorAll('.bind-patch-callsign').forEach(el => el.textContent = callsignStr || (hasName ? nameStr : '---'));
     document.querySelectorAll('.bind-patch-allergies').forEach(el => el.textContent = allergiesStr);
     document.querySelectorAll('.bind-patch-radio').forEach(el => el.textContent = rescue.radioFrequency || '---');
+
+    // 14. Orientación de la Credencial (Horizontal vs Vertical)
+    const isVertical = settings.orientation === 'vertical';
+    document.querySelectorAll('.tactical-card').forEach(el => {
+      if (isVertical) {
+        el.classList.add('card-orientation-vertical');
+      } else {
+        el.classList.remove('card-orientation-vertical');
+      }
+    });
+
+    const labelFront = document.querySelector('#faceBlockFront .card-face-label');
+    const labelBack = document.querySelector('#faceBlockBack .card-face-label');
+    if (labelFront) {
+      labelFront.textContent = isVertical 
+        ? 'Cara Frontal (CR-80 Vertical: 54 × 85.6 mm)' 
+        : 'Cara Frontal (CR-80: 85.6 × 54 mm)';
+    }
+    if (labelBack) {
+      labelBack.textContent = isVertical
+        ? 'Cara Dorsal (CR-80 Vertical: 54 × 85.6 mm)'
+        : 'Cara Dorsal (Contactos ICE & Rescate)';
+    }
+
+    // 15. Brazalete Táctico de Muñeca (A4)
+    document.querySelectorAll('.bind-wristband-blood').forEach(el => el.textContent = bloodStr);
+    document.querySelectorAll('.bind-wristband-name').forEach(el => el.textContent = nameStr);
+    document.querySelectorAll('.bind-wristband-subtext').forEach(el => {
+      el.textContent = [idStr, callsignStr, contacts.ice1Phone ? 'ICE: ' + contacts.ice1Phone : ''].filter(Boolean).join(' • ');
+    });
+    document.querySelectorAll('.bind-wristband-allergies').forEach(el => el.textContent = allergiesStr);
+    const wristQrContainers = Array.from(document.querySelectorAll('.wristband-qr-wrapper'));
+    if (wristQrContainers.length > 0) {
+      QrGenerator.render(wristQrContainers, data);
+    }
   }
 
   return {
@@ -5397,6 +6465,1220 @@ const NfcModule = (() => {
 window.NfcModule = NfcModule;
 
 
+// === js/lockscreen.js ===
+/**
+ * TACTICAL MEDCARD — LOCKSCREEN SOS WALLPAPER GENERATOR
+ * Genera fondos de pantalla HD para smartphones con datos médicos críticos y QR escaneable
+ */
+
+const LockscreenModule = (() => {
+  let modalEl = null;
+  let canvasEl = null;
+  let currentRatio = '19.5:9'; // '16:9' o '19.5:9'
+
+  function init() {
+    modalEl = document.getElementById('lockscreenModal');
+    canvasEl = document.getElementById('lockscreenCanvas');
+
+    const btnOpen = document.getElementById('btnOpenLockscreenModal');
+    const btnOpenStep5 = document.getElementById('btnOpenLockscreenStep5');
+    const btnClose = document.getElementById('btnCloseLockscreenModal');
+    const btnDownload = document.getElementById('btnDownloadLockscreen');
+    const selRatio = document.getElementById('selLockscreenRatio');
+
+    if (btnOpen) {
+      btnOpen.addEventListener('click', openModal);
+    }
+    if (btnOpenStep5) {
+      btnOpenStep5.addEventListener('click', openModal);
+    }
+    if (btnClose) {
+      btnClose.addEventListener('click', closeModal);
+    }
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) closeModal();
+      });
+    }
+    if (selRatio) {
+      selRatio.addEventListener('change', (e) => {
+        currentRatio = e.target.value;
+        renderLockscreen();
+      });
+    }
+    if (btnDownload) {
+      btnDownload.addEventListener('click', downloadWallpaper);
+    }
+  }
+
+  function openModal() {
+    if (!modalEl) return;
+    modalEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    renderLockscreen();
+  }
+
+  function closeModal() {
+    if (!modalEl) return;
+    modalEl.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function renderLockscreen() {
+    if (!canvasEl) return;
+    const ctx = canvasEl.getContext('2d');
+    const data = window.App ? window.App.getFormData() : {};
+    const ident = data.identification || {};
+    const med = data.medical || {};
+    const contacts = data.contacts || {};
+    const rescue = data.rescue || {};
+    const settings = data.settings || {};
+
+    const width = 1080;
+    const height = currentRatio === '19.5:9' ? 2340 : 1920;
+
+    canvasEl.width = width;
+    canvasEl.height = height;
+
+    const accentColor = settings.customColor || '#b91c1c';
+
+    // 1. Fondo táctico oscuro con gradiente
+    const grad = ctx.createLinearGradient(0, 0, 0, height);
+    grad.addColorStop(0, '#0a0d14');
+    grad.addColorStop(0.5, '#0f172a');
+    grad.addColorStop(1, '#07090e');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, width, height);
+
+    // Patrón sutil de cuadrícula militar táctica
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.lineWidth = 1.5;
+    const gridSize = 60;
+    for (let x = 0; x < width; x += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, height);
+      ctx.stroke();
+    }
+    for (let y = 0; y < height; y += gridSize) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(width, y);
+      ctx.stroke();
+    }
+
+    // Marco exterior con esquinas tácticas
+    ctx.strokeStyle = accentColor;
+    ctx.lineWidth = 4;
+    const pad = 36;
+    ctx.strokeRect(pad, pad, width - pad * 2, height - pad * 2);
+
+    // Marcas de esquina tácticas (cruz reticular)
+    drawCornerMarks(ctx, pad, pad, width - pad * 2, height - pad * 2, 28, accentColor);
+
+    // 2. Zona Superior (Espacio para el Reloj del Celular)
+    const cardTopY = height * 0.38;
+
+    // Línea divisoria discreta que delimita el área del reloj
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.setLineDash([8, 8]);
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(pad + 40, cardTopY - 20);
+    ctx.lineTo(width - pad - 40, cardTopY - 20);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // 3. Tarjeta Médica de Emergencia Central
+    const cardX = pad + 30;
+    const cardW = width - (cardX * 2);
+    const cardH = height - cardTopY - pad - 30;
+
+    // Fondo de la tarjeta central
+    ctx.fillStyle = '#ffffff';
+    roundRect(ctx, cardX, cardTopY, cardW, cardH, 24, true, false);
+
+    // Barra de cabecera de la tarjeta
+    ctx.fillStyle = accentColor;
+    roundRectTop(ctx, cardX, cardTopY, cardW, 80, 24);
+
+    // Texto de Cabecera
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 32px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('EMERGENCIA MÉDICA • RESCATE', cardX + 32, cardTopY + 40);
+
+    ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('ICE / TCCC', cardX + cardW - 32, cardTopY + 40);
+
+    // 4. Bloque Superior: Grupo Sanguíneo + Identidad
+    let curY = cardTopY + 110;
+
+    // Badge Grupo Sanguíneo Gigante
+    const bloodBoxW = 260;
+    const bloodBoxH = 150;
+    const bloodBoxX = cardX + cardW - bloodBoxW - 30;
+    const bloodBoxY = curY;
+
+    ctx.fillStyle = '#fef2f2';
+    ctx.strokeStyle = '#dc2626';
+    ctx.lineWidth = 3;
+    roundRect(ctx, bloodBoxX, bloodBoxY, bloodBoxW, bloodBoxH, 16, true, true);
+
+    ctx.fillStyle = '#991b1b';
+    ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('GRUPO SANGUÍNEO', bloodBoxX + bloodBoxW / 2, bloodBoxY + 32);
+
+    const bloodVal = ident.bloodType ? ident.bloodType.toUpperCase() : '---';
+    ctx.fillStyle = '#dc2626';
+    ctx.font = '900 68px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(bloodVal, bloodBoxX + bloodBoxW / 2, bloodBoxY + 102);
+
+    // Datos del Titular
+    const identX = cardX + 32;
+    const fullName = ident.name || [ident.firstName, ident.lastName].filter(Boolean).join(' ') || 'NOMBRE Y APELLIDO';
+    
+    ctx.fillStyle = '#64748b';
+    ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText('TITULAR / OPERADOR', identX, curY + 22);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = '900 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(truncateText(ctx, fullName, bloodBoxX - identX - 20), identX, curY + 65);
+
+    const idText = ident.idNumber ? `RUT / ID: ${ident.idNumber}` : 'RUT / ID: ---';
+    const callsignText = ident.callsign ? ` • [${ident.callsign}]` : '';
+    ctx.fillStyle = '#334155';
+    ctx.font = 'bold 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(`${idText}${callsignText}`, identX, curY + 110);
+
+    curY += 175;
+
+    // 5. Alerta Médica Crítica (Alergias Severas)
+    const alertBoxH = 120;
+    ctx.fillStyle = '#fff1f2';
+    ctx.strokeStyle = '#f43f5e';
+    ctx.lineWidth = 3;
+    roundRect(ctx, cardX + 30, curY, cardW - 60, alertBoxH, 14, true, true);
+
+    ctx.fillStyle = '#e11d48';
+    ctx.font = '900 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('⚠️ ALERGIAS SEVERAS / SHOCK ANAFILÁCTICO:', cardX + 48, curY + 34);
+
+    const allergiesText = med.allergies ? med.allergies.toUpperCase() : 'NINGUNA DECLARADA';
+    ctx.fillStyle = '#9f1239';
+    ctx.font = 'bold 25px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(truncateText(ctx, allergiesText, cardW - 120), cardX + 48, curY + 80);
+
+    curY += alertBoxH + 24;
+
+    // Condiciones o Medicación si existen
+    if (med.conditions || med.medications) {
+      const condBoxH = 80;
+      ctx.fillStyle = '#f8fafc';
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 2;
+      roundRect(ctx, cardX + 30, curY, cardW - 60, condBoxH, 12, true, true);
+
+      ctx.fillStyle = '#475569';
+      ctx.font = 'bold 16px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText('CONDICIÓN / MEDICACIÓN:', cardX + 48, curY + 28);
+
+      const medSummary = [med.conditions, med.medications].filter(Boolean).join(' | ');
+      ctx.fillStyle = '#0f172a';
+      ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.fillText(truncateText(ctx, medSummary, cardW - 120), cardX + 48, curY + 58);
+
+      curY += condBoxH + 24;
+    }
+
+    // 6. Contactos de Emergencia (ICE)
+    const iceBoxH = 150;
+    ctx.fillStyle = '#f8fafc';
+    ctx.strokeStyle = '#0284c7';
+    ctx.lineWidth = 2.5;
+    roundRect(ctx, cardX + 30, curY, cardW - 60, iceBoxH, 14, true, true);
+
+    ctx.fillStyle = '#0369a1';
+    ctx.font = 'bold 20px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText('📞 CONTACTOS DE EMERGENCIA (ICE):', cardX + 48, curY + 34);
+
+    const ice1Name = contacts.ice1Name || 'Contacto 1';
+    const ice1Phone = contacts.ice1Phone || '---';
+    const ice2Name = contacts.ice2Name || 'Contacto 2';
+    const ice2Phone = contacts.ice2Phone || '---';
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(`ICE 1: ${truncateText(ctx, ice1Name, 420)}`, cardX + 48, curY + 74);
+    ctx.fillStyle = '#0284c7';
+    ctx.font = '900 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(ice1Phone, cardX + cardW - 280, curY + 74);
+
+    ctx.fillStyle = '#0f172a';
+    ctx.font = 'bold 22px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(`ICE 2: ${truncateText(ctx, ice2Name, 420)}`, cardX + 48, curY + 118);
+    ctx.fillStyle = '#0284c7';
+    ctx.font = '900 24px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillText(ice2Phone, cardX + cardW - 280, curY + 118);
+
+    curY += iceBoxH + 28;
+
+    // 7. Código QR Escaneable para Rescate Offline
+    const qrSize = Math.min(300, cardH - (curY - cardTopY) - 100);
+    if (qrSize > 140) {
+      const qrX = cardX + (cardW - qrSize) / 2;
+      const qrY = curY + 10;
+
+      // Marco contenedor blanco para QR
+      ctx.fillStyle = '#ffffff';
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 2;
+      roundRect(ctx, qrX - 16, qrY - 16, qrSize + 32, qrSize + 32, 16, true, true);
+
+      // Renderizar el QR directamente al canvas si QRCode está disponible
+      drawQrOnCanvas(ctx, qrX, qrY, qrSize, data);
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = 'bold 18px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('📷 ESCANEAR QR PARA FONO DIRECTO Y FICHA OFFLINE', cardX + cardW / 2, qrY + qrSize + 48);
+    }
+
+    // Pie de la tarjeta
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = 'bold 15px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('TACTICAL MEDCARD • FOXTROT CONCEPTS CHILE 🇨🇱 • RESCATE & OUTDOOR', cardX + cardW / 2, cardTopY + cardH - 24);
+  }
+
+  function drawQrOnCanvas(ctx, x, y, size, data) {
+    const qrText = (window.QrGenerator && window.QrGenerator.generatePayload)
+      ? window.QrGenerator.generatePayload(data)
+      : 'https://spektra242.github.io/TacticalMedCard/';
+
+    const tempDiv = document.createElement('div');
+    tempDiv.style.display = 'none';
+    document.body.appendChild(tempDiv);
+
+    try {
+      new QRCode(tempDiv, {
+        text: qrText,
+        width: size,
+        height: size,
+        correctLevel: QRCode.CorrectLevel.M
+      });
+
+      const qrCanvas = tempDiv.querySelector('canvas');
+      if (qrCanvas) {
+        ctx.drawImage(qrCanvas, x, y, size, size);
+      } else {
+        const qrImg = tempDiv.querySelector('img');
+        if (qrImg && qrImg.src) {
+          ctx.drawImage(qrImg, x, y, size, size);
+        }
+      }
+    } catch (e) {
+      console.warn('QR draw on canvas failed:', e);
+    } finally {
+      if (tempDiv.parentNode) tempDiv.parentNode.removeChild(tempDiv);
+    }
+  }
+
+  function downloadWallpaper() {
+    if (!canvasEl) return;
+    const data = window.App ? window.App.getFormData() : {};
+    const name = (data.identification && data.identification.name) 
+      ? data.identification.name.replace(/\s+/g, '_') 
+      : 'Operador';
+
+    const link = document.createElement('a');
+    link.download = `TacticalMedCard_Lockscreen_${name}.png`;
+    link.href = canvasEl.toDataURL('image/png');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    if (window.App && window.App.showToast) {
+      window.App.showToast('¡Fondo Lockscreen descargado! Configúralo como fondo de pantalla de bloqueo en tu teléfono.', 'success', 4000);
+    }
+  }
+
+  function drawCornerMarks(ctx, x, y, w, h, len, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 4;
+    // Top-left
+    ctx.beginPath(); ctx.moveTo(x - 6, y + len); ctx.lineTo(x - 6, y - 6); ctx.lineTo(x + len, y - 6); ctx.stroke();
+    // Top-right
+    ctx.beginPath(); ctx.moveTo(x + w + 6 - len, y - 6); ctx.lineTo(x + w + 6, y - 6); ctx.lineTo(x + w + 6, y + len); ctx.stroke();
+    // Bottom-left
+    ctx.beginPath(); ctx.moveTo(x - 6, y + h + 6 - len); ctx.lineTo(x - 6, y + h + 6); ctx.lineTo(x + len, y + h + 6); ctx.stroke();
+    // Bottom-right
+    ctx.beginPath(); ctx.moveTo(x + w + 6 - len, y + h + 6); ctx.lineTo(x + w + 6, y + h + 6); ctx.lineTo(x + w + 6, y + h + 6 - len); ctx.stroke();
+  }
+
+  function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    if (fill) ctx.fill();
+    if (stroke) ctx.stroke();
+  }
+
+  function roundRectTop(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.lineTo(x + w, y + h);
+    ctx.lineTo(x, y + h);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function truncateText(ctx, text, maxWidth) {
+    if (!text) return '';
+    let cur = text;
+    if (ctx.measureText(cur).width <= maxWidth) return cur;
+    while (cur.length > 0 && ctx.measureText(cur + '...').width > maxWidth) {
+      cur = cur.slice(0, -1);
+    }
+    return cur + '...';
+  }
+
+  return {
+    init,
+    openModal,
+    closeModal,
+    renderLockscreen,
+    downloadWallpaper
+  };
+})();
+
+window.LockscreenModule = LockscreenModule;
+
+
+// === js/sar-plan.js ===
+/**
+ * TACTICAL MEDCARD — SAR FLOAT PLAN & GPS LOCATOR MODULE
+ * Plan de salida segura, geolocalización GPS y notificación de emergencia
+ */
+
+const SarPlanModule = (() => {
+  let modalEl = null;
+
+  function init() {
+    modalEl = document.getElementById('sarPlanModal');
+
+    const btnOpen = document.getElementById('btnOpenSarPlanModal');
+    const btnClose = document.getElementById('btnCloseSarPlanModal');
+    const btnGetGps = document.getElementById('btnGetGpsLocation');
+    const btnCopyPlan = document.getElementById('btnCopyFloatPlan');
+    const btnSharePlan = document.getElementById('btnShareFloatPlan');
+    const btnPrintPlan = document.getElementById('btnPrintFloatPlan');
+
+    if (btnOpen) btnOpen.addEventListener('click', openModal);
+    if (btnClose) btnClose.addEventListener('click', closeModal);
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) closeModal();
+      });
+    }
+
+    if (btnGetGps) btnGetGps.addEventListener('click', captureGpsLocation);
+    if (btnCopyPlan) btnCopyPlan.addEventListener('click', copyPlanText);
+    if (btnSharePlan) btnSharePlan.addEventListener('click', sharePlanWhatsApp);
+    if (btnPrintPlan) btnPrintPlan.addEventListener('click', printPlanDocument);
+
+    // Actualizar previsualización en vivo al escribir en el formulario del plan
+    const planForm = document.getElementById('sarPlanForm');
+    if (planForm) {
+      planForm.addEventListener('input', updatePlanPreview);
+    }
+  }
+
+  function openModal() {
+    if (!modalEl) return;
+    modalEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // Precargar datos del operador actual
+    const data = window.App ? window.App.getFormData() : {};
+    const ident = data.identification || {};
+    const rescue = data.rescue || {};
+    const contacts = data.contacts || {};
+
+    const inLeader = document.getElementById('sarPlanLeader');
+    const inRadio = document.getElementById('sarPlanRadio');
+    const inEmergencyContact = document.getElementById('sarPlanBaseContact');
+
+    if (inLeader && !inLeader.value) {
+      inLeader.value = ident.name || [ident.firstName, ident.lastName].filter(Boolean).join(' ');
+    }
+    if (inRadio && !inRadio.value) {
+      inRadio.value = rescue.radioFrequency || 'VHF 146.520 MHz';
+    }
+    if (inEmergencyContact && !inEmergencyContact.value) {
+      inEmergencyContact.value = [contacts.ice1Name, contacts.ice1Phone].filter(Boolean).join(' - ');
+    }
+
+    updatePlanPreview();
+  }
+
+  function closeModal() {
+    if (!modalEl) return;
+    modalEl.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function captureGpsLocation() {
+    const gpsStatus = document.getElementById('sarGpsStatus');
+    const inGps = document.getElementById('sarPlanGps');
+
+    if (!navigator.geolocation) {
+      if (gpsStatus) gpsStatus.textContent = '❌ Geolocalización no soportada por el navegador.';
+      return;
+    }
+
+    if (gpsStatus) {
+      gpsStatus.textContent = '🛰️ Obteniendo satélites GPS... espera unos segundos.';
+      gpsStatus.style.color = '#38bdf8';
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lon = pos.coords.longitude.toFixed(6);
+        const alt = pos.coords.altitude ? ` • Altitud: ${Math.round(pos.coords.altitude)}m` : '';
+        const acc = Math.round(pos.coords.accuracy);
+
+        const gpsString = `${lat}, ${lon} (±${acc}m)${alt}`;
+        if (inGps) inGps.value = gpsString;
+
+        if (gpsStatus) {
+          gpsStatus.innerHTML = `✅ <strong>Coordenadas fijadas:</strong> ${lat}, ${lon} <a href="https://maps.google.com/?q=${lat},${lon}" target="_blank" style="color: #38bdf8; text-decoration: underline;">[Ver en Google Maps]</a>`;
+          gpsStatus.style.color = '#10b981';
+        }
+
+        updatePlanPreview();
+        if (window.App && window.App.showToast) {
+          window.App.showToast('¡Coordenadas GPS capturadas con éxito!', 'success');
+        }
+      },
+      (err) => {
+        if (gpsStatus) {
+          gpsStatus.textContent = `⚠️ Error GPS: ${err.message}. Asegúrate de otorgar permisos de ubicación.`;
+          gpsStatus.style.color = '#f87171';
+        }
+      },
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 }
+    );
+  }
+
+  function buildPlanData() {
+    return {
+      activity: document.getElementById('sarPlanActivity')?.value.trim() || 'Trekking / Expedición',
+      destination: document.getElementById('sarPlanDestination')?.value.trim() || 'Sector Cordillera',
+      leader: document.getElementById('sarPlanLeader')?.value.trim() || 'Operador',
+      groupCount: document.getElementById('sarPlanGroupCount')?.value.trim() || '1',
+      entryPoint: document.getElementById('sarPlanEntryPoint')?.value.trim() || 'Base / Entrada Parque',
+      exitPoint: document.getElementById('sarPlanExitPoint')?.value.trim() || 'Mismo punto de entrada',
+      startTime: document.getElementById('sarPlanStartTime')?.value || '',
+      dropDeadTime: document.getElementById('sarPlanDropDeadTime')?.value || '',
+      radioFreq: document.getElementById('sarPlanRadio')?.value.trim() || 'VHF 146.520 MHz',
+      gpsCoords: document.getElementById('sarPlanGps')?.value.trim() || '',
+      baseContact: document.getElementById('sarPlanBaseContact')?.value.trim() || '',
+      vehicleInfo: document.getElementById('sarPlanVehicle')?.value.trim() || '',
+      notes: document.getElementById('sarPlanNotes')?.value.trim() || ''
+    };
+  }
+
+  function getPlanFormattedText() {
+    const p = buildPlanData();
+    let mapsLink = '';
+    if (p.gpsCoords) {
+      const match = p.gpsCoords.match(/(-?\d+\.\d+),\s*(-?\d+\.\d+)/);
+      if (match) {
+        mapsLink = `\n🗺️ MAPA: https://maps.google.com/?q=${match[1]},${match[2]}`;
+      }
+    }
+
+    return `🚨 PLAN DE SALIDA SEGURA & FICHA SAR
+══════════════════════════════
+🏔️ ACTIVIDAD: ${p.activity.toUpperCase()}
+📍 RUTA / DESTINO: ${p.destination}
+👤 LÍDER / OPERADOR: ${p.leader}
+👥 INTEGRANTES EN GRUPO: ${p.groupCount} personas
+🚪 PUNTO ENTRADA: ${p.entryPoint}
+🏁 PUNTO SALIDA ESTIMADO: ${p.exitPoint}
+⏰ HORA DE PARTIDA: ${p.startTime || 'No especificada'}
+🛑 HORA LÍMITE REGRESO (DROP-DEAD): ${p.dropDeadTime || 'No especificada'}
+⚠️ EN CASO DE NO TENER CONTACTO TRAS LA HORA LÍMITE:
+   ACTIVAR SOCORRO ANDINO / CARABINEROS (133) / CONAF
+📡 FRECUENCIA RADIO: ${p.radioFreq}
+🌐 COORDENADAS GPS: ${p.gpsCoords || 'Sin fijar'}${mapsLink}
+📞 CONTACTO DE EMERGENCIA EN BASE: ${p.baseContact || 'No especificado'}
+🚗 VEHÍCULO EN BASE: ${p.vehicleInfo || 'N/A'}
+📝 NOTAS / EQUIPO CRÍTICO: ${p.notes || 'Botiquín IFAK, mantas térmicas, raciones 24h'}
+══════════════════════════════
+Generado por TacticalMedCard • Sistema Táctico SAR`.trim();
+  }
+
+  function updatePlanPreview() {
+    const previewEl = document.getElementById('sarPlanTextPreview');
+    if (previewEl) {
+      previewEl.textContent = getPlanFormattedText();
+    }
+  }
+
+  function copyPlanText() {
+    const text = getPlanFormattedText();
+    navigator.clipboard.writeText(text).then(() => {
+      if (window.App && window.App.showToast) {
+        window.App.showToast('📋 ¡Plan de salida copiado! Listo para enviar por WhatsApp.', 'success');
+      }
+    }).catch(() => {
+      // Fallback
+      const area = document.createElement('textarea');
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      document.execCommand('copy');
+      document.body.removeChild(area);
+      if (window.App && window.App.showToast) {
+        window.App.showToast('📋 ¡Plan de salida copiado al portapapeles!', 'success');
+      }
+    });
+  }
+
+  function sharePlanWhatsApp() {
+    const text = encodeURIComponent(getPlanFormattedText());
+    window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+  }
+
+  function printPlanDocument() {
+    const p = buildPlanData();
+    const win = window.open('', '_blank');
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Ficha de Salida Segura SAR — ${p.destination}</title>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; padding: 25px; color: #0f172a; line-height: 1.4; }
+          .header { border-bottom: 3px solid #b91c1c; padding-bottom: 12px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+          .title { font-size: 20px; font-weight: 900; color: #b91c1c; letter-spacing: 0.05em; }
+          .table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+          .table th, .table td { border: 1px solid #cbd5e1; padding: 8px 12px; text-align: left; font-size: 13px; }
+          .table th { background: #f1f5f9; font-weight: 800; width: 30%; }
+          .alert-box { background: #fee2e2; border: 2px solid #ef4444; border-radius: 6px; padding: 12px; margin: 16px 0; color: #991b1b; font-weight: 800; font-size: 13px; }
+          .footer { margin-top: 30px; font-size: 11px; color: #64748b; border-top: 1px solid #cbd5e1; padding-top: 10px; }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div>
+            <div class="title">FICHA DE SALIDA SEGURA & PLAN DE RESCATE SAR</div>
+            <div style="font-size: 12px; color: #64748b; font-weight: 700;">DOCUMENTO DE CONTROL DE EXPEDICIÓN • GUARDAPARQUES / CARABINEROS</div>
+          </div>
+          <div style="font-size: 24px;">🇨🇱</div>
+        </div>
+
+        <div class="alert-box">
+          🛑 HORA LÍMITE DE REGRESO (DROP-DEAD TIME): ${p.dropDeadTime || 'NO ESPECIFICADA'}<br>
+          <small style="font-weight: 600;">Si no se establece comunicación antes de este horario, dar aviso inmediato a Socorro Andino / Carabineros (133).</small>
+        </div>
+
+        <table class="table">
+          <tr><th>ACTIVIDAD / MODALIDAD</th><td>${p.activity.toUpperCase()}</td></tr>
+          <tr><th>RUTA / DESTINO</th><td><strong>${p.destination}</strong></td></tr>
+          <tr><th>LÍDER DE EXPEDICIÓN</th><td>${p.leader}</td></tr>
+          <tr><th>CANTIDAD INTEGRANTES</th><td>${p.groupCount} personas</td></tr>
+          <tr><th>PUNTO DE INICIO / ACCESO</th><td>${p.entryPoint}</td></tr>
+          <tr><th>PUNTO ESTIMADO SALIDA</th><td>${p.exitPoint}</td></tr>
+          <tr><th>HORA DE INICIO</th><td>${p.startTime || '---'}</td></tr>
+          <tr><th>FRECUENCIA DE RADIO</th><td><strong>${p.radioFreq}</strong></td></tr>
+          <tr><th>COORDENADAS GPS / ENLACE</th><td>${p.gpsCoords || '---'}</td></tr>
+          <tr><th>CONTACTO BASE / ALERTA</th><td><strong>${p.baseContact}</strong></td></tr>
+          <tr><th>VEHÍCULO EN BASE (PATENTE/MODELO)</th><td>${p.vehicleInfo || 'N/A'}</td></tr>
+          <tr><th>OBSERVACIONES / EQUIPO</th><td>${p.notes || 'IFAK completo, abrigo técnico, GPS satelital'}</td></tr>
+        </table>
+
+        <div class="footer">
+          Documento generado por plataforma TacticalMedCard • Hecho en Chile • Estándares SAR Outdoor
+        </div>
+      </body>
+      </html>
+    `);
+    win.document.close();
+    win.focus();
+    setTimeout(() => { win.print(); }, 350);
+  }
+
+  return {
+    init,
+    openModal,
+    closeModal,
+    captureGpsLocation,
+    copyPlanText,
+    sharePlanWhatsApp,
+    printPlanDocument
+  };
+})();
+
+window.SarPlanModule = SarPlanModule;
+
+
+// === js/qr-scanner.js ===
+/**
+ * TACTICAL MEDCARD — FIELD QR CODE SCANNER MODULE
+ * Lector de códigos QR con cámara integrada y visor de triaje médico rápido
+ */
+
+const QrScannerModule = (() => {
+  let modalEl = null;
+  let videoEl = null;
+  let canvasEl = null;
+  let stream = null;
+  let scanning = false;
+  let barcodeDetector = null;
+
+  function init() {
+    modalEl = document.getElementById('qrScannerModal');
+    videoEl = document.getElementById('qrScannerVideo');
+    canvasEl = document.getElementById('qrScannerCanvas');
+
+    const btnOpen = document.getElementById('btnOpenQrScanner');
+    const btnClose = document.getElementById('btnCloseQrScanner');
+    const btnRescan = document.getElementById('btnScannerRescan');
+
+    if (btnOpen) btnOpen.addEventListener('click', openScanner);
+    if (btnClose) btnClose.addEventListener('click', closeScanner);
+    if (btnRescan) btnRescan.addEventListener('click', restartScan);
+
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) closeScanner();
+      });
+    }
+
+    if ('BarcodeDetector' in window) {
+      try {
+        barcodeDetector = new BarcodeDetector({ formats: ['qr_code'] });
+      } catch (e) {
+        barcodeDetector = null;
+      }
+    }
+  }
+
+  async function openScanner() {
+    if (!modalEl) return;
+    modalEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+
+    // Reset UI
+    const resultBox = document.getElementById('qrScannerResultBox');
+    const videoWrap = document.getElementById('qrScannerVideoWrap');
+    if (resultBox) resultBox.style.display = 'none';
+    if (videoWrap) videoWrap.style.display = 'block';
+
+    const statusEl = document.getElementById('qrScannerStatus');
+    if (statusEl) statusEl.textContent = 'Apuntando cámara al código QR de la credencial...';
+
+    await startCamera();
+  }
+
+  function closeScanner() {
+    stopCamera();
+    if (modalEl) modalEl.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  async function startCamera() {
+    const statusEl = document.getElementById('qrScannerStatus');
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: { ideal: 'environment' } },
+        audio: false
+      });
+      if (videoEl) {
+        videoEl.srcObject = stream;
+        videoEl.setAttribute('playsinline', true);
+        await videoEl.play();
+        scanning = true;
+        requestAnimationFrame(scanFrame);
+      }
+    } catch (err) {
+      if (statusEl) {
+        statusEl.innerHTML = `⚠️ No se pudo acceder a la cámara (${err.name}: ${err.message}). Asegúrate de dar permisos de cámara al navegador.`;
+        statusEl.style.color = '#f87171';
+      }
+    }
+  }
+
+  function stopCamera() {
+    scanning = false;
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      stream = null;
+    }
+    if (videoEl) {
+      videoEl.srcObject = null;
+    }
+  }
+
+  function restartScan() {
+    const resultBox = document.getElementById('qrScannerResultBox');
+    const videoWrap = document.getElementById('qrScannerVideoWrap');
+    if (resultBox) resultBox.style.display = 'none';
+    if (videoWrap) videoWrap.style.display = 'block';
+    const statusEl = document.getElementById('qrScannerStatus');
+    if (statusEl) {
+      statusEl.textContent = 'Buscando código QR en credencial...';
+      statusEl.style.color = 'var(--text-muted)';
+    }
+    startCamera();
+  }
+
+  async function scanFrame() {
+    if (!scanning || !videoEl || videoEl.readyState !== videoEl.HAVE_ENOUGH_DATA) {
+      if (scanning) requestAnimationFrame(scanFrame);
+      return;
+    }
+
+    // Método 1: BarcodeDetector API nativo
+    if (barcodeDetector) {
+      try {
+        const barcodes = await barcodeDetector.detect(videoEl);
+        if (barcodes.length > 0) {
+          handleDetectedQr(barcodes[0].rawValue);
+          return;
+        }
+      } catch (e) {
+        // Fallback a canvas si falla
+      }
+    }
+
+    if (scanning) {
+      requestAnimationFrame(scanFrame);
+    }
+  }
+
+  function handleDetectedQr(rawText) {
+    stopCamera();
+
+    if ('vibrate' in navigator) {
+      try { navigator.vibrate(150); } catch (e) {}
+    }
+
+    const videoWrap = document.getElementById('qrScannerVideoWrap');
+    const resultBox = document.getElementById('qrScannerResultBox');
+    const statusEl = document.getElementById('qrScannerStatus');
+
+    if (videoWrap) videoWrap.style.display = 'none';
+    if (resultBox) resultBox.style.display = 'block';
+    if (statusEl) {
+      statusEl.textContent = '✅ ¡Código QR escaneado con éxito!';
+      statusEl.style.color = '#10b981';
+    }
+
+    parseAndDisplayQrData(rawText);
+  }
+
+  function parseAndDisplayQrData(text) {
+    let name = 'Desconocido';
+    let blood = '---';
+    let phone = '';
+    let allergies = 'Ninguna declarada';
+    let details = text;
+
+    // Detectar si es vCard
+    if (text.includes('BEGIN:VCARD')) {
+      const fnMatch = text.match(/FN:(.+)/i);
+      const telMatch = text.match(/TEL.*:(.+)/i);
+      const noteMatch = text.match(/NOTE:(.+)/i);
+      const orgMatch = text.match(/ORG:(.+)/i);
+
+      if (fnMatch) name = fnMatch[1].trim();
+      if (telMatch) phone = telMatch[1].trim();
+      if (noteMatch) {
+        const note = noteMatch[1].trim();
+        details = note;
+        // Extraer sangre de la nota
+        const bloodMatch = note.match(/SANGRE:\s*([^|,\n]+)/i);
+        if (bloodMatch) blood = bloodMatch[1].trim();
+        const allergyMatch = note.match(/ALERGIAS:\s*([^|,\n]+)/i);
+        if (allergyMatch) allergies = allergyMatch[1].trim();
+      }
+    } else {
+      // Búsqueda simple de palabras clave
+      const bMatch = text.match(/SANGRE:\s*([^\n|]+)/i) || text.match(/\b(O\+|O-|A\+|A-|B\+|B-|AB\+|AB-|A II \+|O I -)\b/i);
+      if (bMatch) blood = bMatch[1].trim();
+      const aMatch = text.match(/ALERGIAS:\s*([^\n|]+)/i);
+      if (aMatch) allergies = aMatch[1].trim();
+      const pMatch = text.match(/(\+56\s?9\s?\d{4}\s?\d{4}|\+?\d{8,15})/);
+      if (pMatch) phone = pMatch[1].trim();
+    }
+
+    // Renderizar datos en el popup de triaje
+    const elName = document.getElementById('scanResName');
+    const elBlood = document.getElementById('scanResBlood');
+    const elAllergies = document.getElementById('scanResAllergies');
+    const elRaw = document.getElementById('scanResRaw');
+    const btnCall = document.getElementById('btnScanCallIce');
+    const btnAddPatrol = document.getElementById('btnScanAddPatrol');
+
+    if (elName) elName.textContent = name;
+    if (elBlood) elBlood.textContent = blood;
+    if (elAllergies) elAllergies.textContent = allergies;
+    if (elRaw) elRaw.textContent = details;
+
+    if (btnCall) {
+      if (phone) {
+        btnCall.style.display = 'inline-flex';
+        btnCall.href = `tel:${phone.replace(/\s+/g, '')}`;
+        btnCall.innerHTML = `📞 Llamar ICE (${phone})`;
+      } else {
+        btnCall.style.display = 'none';
+      }
+    }
+
+    if (btnAddPatrol) {
+      btnAddPatrol.onclick = () => {
+        if (window.PatrolModule) {
+          window.PatrolModule.addNewMember({
+            identification: { name, bloodType: blood },
+            medical: { allergies },
+            contacts: { ice1Phone: phone }
+          });
+          closeScanner();
+          if (window.App && window.App.showToast) {
+            window.App.showToast(`¡${name} añadido a tu patrulla!`, 'success');
+          }
+        }
+      };
+    }
+  }
+
+  return {
+    init,
+    openScanner,
+    closeScanner
+  };
+})();
+
+window.QrScannerModule = QrScannerModule;
+
+
+// === js/csv-importer.js ===
+/**
+ * TACTICAL MEDCARD — CSV/EXCEL BATCH IMPORTER & MULTI-PATROL PRINTER
+ * Carga masiva de integrantes e impresión por lotes en hoja A4
+ */
+
+const CsvImporterModule = (() => {
+  let modalEl = null;
+  let parsedMembers = [];
+
+  function init() {
+    modalEl = document.getElementById('csvImporterModal');
+
+    const btnOpen = document.getElementById('btnOpenCsvModal');
+    const btnClose = document.getElementById('btnCloseCsvModal');
+    const fileInput = document.getElementById('inCsvFile');
+    const btnDownloadTemplate = document.getElementById('btnDownloadCsvTemplate');
+    const btnConfirmImport = document.getElementById('btnConfirmCsvImport');
+    const btnBatchPrint = document.getElementById('btnBatchPrintPatrol');
+
+    if (btnOpen) btnOpen.addEventListener('click', openModal);
+    if (btnClose) btnClose.addEventListener('click', closeModal);
+    if (fileInput) fileInput.addEventListener('change', handleFileSelected);
+    if (btnDownloadTemplate) btnDownloadTemplate.addEventListener('click', downloadCsvTemplate);
+    if (btnConfirmImport) btnConfirmImport.addEventListener('click', executeImport);
+    if (btnBatchPrint) btnBatchPrint.addEventListener('click', printEntirePatrolBatch);
+
+    if (modalEl) {
+      modalEl.addEventListener('click', (e) => {
+        if (e.target === modalEl) closeModal();
+      });
+    }
+  }
+
+  function openModal() {
+    if (!modalEl) return;
+    modalEl.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    resetModal();
+  }
+
+  function closeModal() {
+    if (!modalEl) return;
+    modalEl.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  function resetModal() {
+    parsedMembers = [];
+    const previewWrap = document.getElementById('csvTablePreviewWrap');
+    const confirmBtn = document.getElementById('btnConfirmCsvImport');
+    const statusEl = document.getElementById('csvParseStatus');
+    const fileInput = document.getElementById('inCsvFile');
+
+    if (fileInput) fileInput.value = '';
+    if (previewWrap) previewWrap.style.display = 'none';
+    if (confirmBtn) confirmBtn.disabled = true;
+    if (statusEl) {
+      statusEl.textContent = 'Selecciona o arrastra un archivo CSV o Excel exportado con la lista de operadores.';
+      statusEl.style.color = 'var(--text-muted)';
+    }
+  }
+
+  function handleFileSelected(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target.result;
+      parseCsvContent(content);
+    };
+    reader.readAsText(file, 'UTF-8');
+  }
+
+  function parseCsvContent(text) {
+    const statusEl = document.getElementById('csvParseStatus');
+    const previewWrap = document.getElementById('csvTablePreviewWrap');
+    const tbody = document.getElementById('csvPreviewTableBody');
+    const confirmBtn = document.getElementById('btnConfirmCsvImport');
+
+    if (!text || !text.trim()) {
+      if (statusEl) statusEl.textContent = '⚠️ El archivo está vacío.';
+      return;
+    }
+
+    const lines = text.split(/\r?\n/).filter(line => line.trim().length > 0);
+    if (lines.length < 2) {
+      if (statusEl) statusEl.textContent = '⚠️ El archivo debe contener al menos 1 fila de encabezado y 1 fila de datos.';
+      return;
+    }
+
+    // Detectar delimitador (coma, punto y coma, tabulador)
+    const firstLine = lines[0];
+    let delim = ',';
+    if ((firstLine.match(/;/g) || []).length > (firstLine.match(/,/g) || []).length) delim = ';';
+    if ((firstLine.match(/\t/g) || []).length > (firstLine.match(/;/g) || []).length) delim = '\t';
+
+    const headers = parseCsvLine(lines[0], delim).map(h => normalizeKey(h));
+
+    parsedMembers = [];
+    for (let i = 1; i < lines.length; i++) {
+      const values = parseCsvLine(lines[i], delim);
+      if (values.length === 0 || values.every(v => !v)) continue;
+
+      const member = {
+        identification: {},
+        medical: {},
+        contacts: {},
+        rescue: {},
+        settings: { cardDesign: 'design-sar-alpine' }
+      };
+
+      headers.forEach((h, idx) => {
+        const val = (values[idx] || '').trim();
+        if (!val) return;
+
+        if (h.includes('nombre') && !h.includes('ice') && !h.includes('contacto')) {
+          member.identification.firstName = val;
+        } else if (h.includes('apellido')) {
+          member.identification.lastName = val;
+        } else if (h.includes('rut') || h.includes('dni') || h.includes('pasaporte') || h.includes('id')) {
+          member.identification.idNumber = val;
+        } else if (h.includes('callsign') || h.includes('indicativo') || h.includes('apodo')) {
+          member.identification.callsign = val;
+        } else if (h.includes('sangre') || h.includes('blood') || h.includes('grupo')) {
+          member.identification.bloodType = val;
+        } else if (h.includes('alergia')) {
+          member.medical.allergies = val;
+        } else if (h.includes('condicion') || h.includes('patologia')) {
+          member.medical.conditions = val;
+        } else if (h.includes('medicamento')) {
+          member.medical.medications = val;
+        } else if ((h.includes('ice') || h.includes('contacto')) && h.includes('1') && !h.includes('fono') && !h.includes('tel')) {
+          member.contacts.ice1Name = val;
+        } else if ((h.includes('ice') || h.includes('contacto')) && (h.includes('tel') || h.includes('fono')) && (h.includes('1') || !h.includes('2'))) {
+          member.contacts.ice1Phone = val;
+        } else if ((h.includes('ice') || h.includes('contacto')) && h.includes('2') && !h.includes('fono') && !h.includes('tel')) {
+          member.contacts.ice2Name = val;
+        } else if ((h.includes('ice') || h.includes('contacto')) && (h.includes('tel') || h.includes('fono')) && h.includes('2')) {
+          member.contacts.ice2Phone = val;
+        } else if (h.includes('radio') || h.includes('frecuencia') || h.includes('vhf')) {
+          member.rescue.radioFrequency = val;
+        }
+      });
+
+      // Computar nombre completo
+      const f = member.identification.firstName || '';
+      const l = member.identification.lastName || '';
+      member.identification.name = [f, l].filter(Boolean).join(' ');
+
+      if (member.identification.name || member.identification.idNumber) {
+        parsedMembers.push(member);
+      }
+    }
+
+    if (parsedMembers.length === 0) {
+      if (statusEl) statusEl.textContent = '⚠️ No se encontraron integrantes válidos en el archivo. Verifica los nombres de columna.';
+      return;
+    }
+
+    // Renderizar previsualización
+    if (tbody) {
+      tbody.innerHTML = '';
+      parsedMembers.slice(0, 10).forEach((m, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${idx + 1}</td>
+          <td><strong>${m.identification.name || '---'}</strong></td>
+          <td>${m.identification.idNumber || '---'}</td>
+          <td><span style="color: #ef4444; font-weight: 800;">${m.identification.bloodType || '---'}</span></td>
+          <td>${m.medical.allergies || 'Ninguna'}</td>
+          <td>${m.contacts.ice1Phone || '---'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    if (previewWrap) previewWrap.style.display = 'block';
+    if (confirmBtn) {
+      confirmBtn.disabled = false;
+      confirmBtn.innerHTML = `✓ Importar ${parsedMembers.length} Operadores a la Patrulla`;
+    }
+
+    if (statusEl) {
+      statusEl.innerHTML = `✅ <strong>${parsedMembers.length} operadores detectados</strong> listos para ser importados.`;
+      statusEl.style.color = '#10b981';
+    }
+  }
+
+  function parseCsvLine(line, delim) {
+    const result = [];
+    let cur = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') {
+        inQuotes = !inQuotes;
+      } else if (c === delim && !inQuotes) {
+        result.push(cur.replace(/^"|"$/g, '').trim());
+        cur = '';
+      } else {
+        cur += c;
+      }
+    }
+    result.push(cur.replace(/^"|"$/g, '').trim());
+    return result;
+  }
+
+  function normalizeKey(str) {
+    return (str || '').toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]/g, '');
+  }
+
+  function executeImport() {
+    if (parsedMembers.length === 0 || !window.PatrolModule) return;
+
+    parsedMembers.forEach(member => {
+      window.PatrolModule.addNewMember(member);
+    });
+
+    closeModal();
+    if (window.App && window.App.showToast) {
+      window.App.showToast(`🎉 ¡${parsedMembers.length} operadores importados a tu patrulla con éxito!`, 'success', 4500);
+    }
+  }
+
+  function downloadCsvTemplate() {
+    const headers = [
+      'Nombre', 'Apellido', 'RUT', 'Callsign', 'Grupo_Sanguineo',
+      'Alergias', 'Condiciones', 'Medicacion',
+      'ICE1_Nombre', 'ICE1_Telefono', 'ICE2_Nombre', 'ICE2_Telefono', 'Frecuencia_Radio'
+    ].join(',');
+
+    const sample1 = [
+      'Carlos', 'Martinez Rivas', '18.492.301-K', 'CONDOR-4', 'A II +',
+      'Penicilina', 'Asma leve', 'Salbutamol',
+      'Maria Rivas (Madre)', '+56 9 8765 4321', 'Andres Martinez', '+56 9 1234 5678', 'VHF 146.520'
+    ].join(',');
+
+    const sample2 = [
+      'Valeria', 'Contreras Silva', '19.821.402-4', 'ECHO-1', 'O I -',
+      'Ninguna', 'Ninguna', 'Ninguna',
+      'Rodrigo Contreras', '+56 9 9988 7766', '', '', 'VHF 146.520'
+    ].join(',');
+
+    const csvContent = '\uFEFF' + [headers, sample1, sample2].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'plantilla_patrulla_medcard.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function printEntirePatrolBatch() {
+    if (!window.PatrolModule) {
+      window.print();
+      return;
+    }
+
+    const members = window.PatrolModule.getAllMembers();
+    if (!members || members.length <= 1) {
+      window.print();
+      return;
+    }
+
+    const toast = window.App?.showToast;
+    if (toast) toast(`Preparando impresión por lotes de ${members.length} credenciales...`, 'info', 3000);
+
+    const sheetContainer = document.querySelector('.sheet-scalable-container');
+    if (!sheetContainer) {
+      window.print();
+      return;
+    }
+
+    const originalHtml = sheetContainer.innerHTML;
+    const activeMemberId = window.PatrolModule.getActiveMemberId ? window.PatrolModule.getActiveMemberId() : null;
+
+    // Cambiar a vista Hoja A4
+    const btnSheet = document.getElementById('btnViewPrintSheet');
+    if (btnSheet) btnSheet.click();
+
+    setTimeout(() => {
+      window.print();
+    }, 400);
+  }
+
+  return {
+    init,
+    openModal,
+    closeModal,
+    printEntirePatrolBatch
+  };
+})();
+
+window.CsvImporterModule = CsvImporterModule;
+
+
 // === js/app.js ===
 /**
  * TACTICAL MEDCARD — CORE CONTROLLER & STATE MANAGER
@@ -5454,6 +7736,9 @@ const App = (() => {
     },
     settings: {
       cardDesign: "design-sar-alpine",
+      cardTexture: "none",
+      customLogo: "",
+      orientation: "horizontal",
       customColor: "#b91c1c",
       backType: "sar_ice",
       visualMode: "qr",
@@ -5467,6 +7752,9 @@ const App = (() => {
   let saveDebounceTimer = null;
   const ZOOM_KEY = 'TACTICAL_MEDCARD_ZOOM';
   let currentZoom = parseFloat(localStorage.getItem(ZOOM_KEY)) || 1.0;
+  let currentOrientation = 'horizontal';
+  let currentCustomLogo = '';
+  let deferredPrompt = null;
 
   function init() {
     // 1. Cargar datos guardados o por defecto
@@ -5484,6 +7772,10 @@ const App = (() => {
     PatrolModule.init(initialData);
     PvcExport.init();
     NfcModule.init();
+    if (window.LockscreenModule) LockscreenModule.init();
+    if (window.SarPlanModule) SarPlanModule.init();
+    if (window.QrScannerModule) QrScannerModule.init();
+    if (window.CsvImporterModule) CsvImporterModule.init();
 
     // 3. Cargar en Formulario
     loadMemberData(initialData);
@@ -5492,6 +7784,8 @@ const App = (() => {
     setupFormEvents();
     setupGuidedWizard();
     setupDesignChips();
+    setupCustomLogoControls();
+    setupOrientationSelector();
     setupBloodTypeSelector();
     setupAccordions();
     setupResponsiveScale();
@@ -5500,6 +7794,7 @@ const App = (() => {
     setupViewModeTabs();
     setupMobileNav();
     setupKeyboardShortcuts();
+    setupPwaInstall();
 
     // 5. Primer Renderizado
     updateCards();
@@ -5561,6 +7856,9 @@ const App = (() => {
       },
       settings: {
         cardDesign: document.getElementById('selCardDesign')?.value || 'design-sar-alpine',
+        cardTexture: document.getElementById('selCardTexture')?.value || 'none',
+        customLogo: currentCustomLogo || '',
+        orientation: currentOrientation || document.getElementById('selOrientation')?.value || 'horizontal',
         customColor: document.getElementById('inCustomHex')?.value.trim() || '#b91c1c',
         backType: document.getElementById('selBackType')?.value || 'sar_ice',
         visualMode: document.getElementById('selVisualMode')?.value || 'qr',
@@ -5635,6 +7933,12 @@ const App = (() => {
     setVal('inMistT', rescue.mistT);
 
     setVal('selCardDesign', settings.cardDesign || 'design-sar-alpine');
+    setVal('selCardTexture', settings.cardTexture || 'none');
+    currentCustomLogo = settings.customLogo || '';
+    syncCustomLogoUI(currentCustomLogo);
+    currentOrientation = settings.orientation || 'horizontal';
+    setVal('selOrientation', currentOrientation);
+    syncOrientationButtons(currentOrientation);
     const customHex = settings.customColor || (PRESET_HEX_MAP[settings.cardDesign] || '#b91c1c');
     setVal('inCustomHex', customHex.toUpperCase());
     setVal('inCustomColorPicker', customHex);
@@ -5879,6 +8183,51 @@ const App = (() => {
     if (btnApplyHex) {
       btnApplyHex.addEventListener('click', () => {
         applyCustomHex(hexInput?.value || '#b91c1c');
+      });
+    }
+  }
+
+  function syncCustomLogoUI(logoDataUrl) {
+    const thumb = document.getElementById('thumbCustomLogo');
+    const placeholder = document.getElementById('placeholderCustomLogo');
+    const btnRemove = document.getElementById('btnRemoveCustomLogo');
+    if (logoDataUrl) {
+      if (thumb) { thumb.src = logoDataUrl; thumb.style.display = 'block'; }
+      if (placeholder) placeholder.style.display = 'none';
+      if (btnRemove) btnRemove.style.display = 'inline-flex';
+    } else {
+      if (thumb) { thumb.src = ''; thumb.style.display = 'none'; }
+      if (placeholder) placeholder.style.display = 'flex';
+      if (btnRemove) btnRemove.style.display = 'none';
+    }
+  }
+
+  function setupCustomLogoControls() {
+    const fileInput = document.getElementById('inCustomLogo');
+    const btnRemove = document.getElementById('btnRemoveCustomLogo');
+
+    if (fileInput) {
+      fileInput.addEventListener('change', (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          currentCustomLogo = event.target.result;
+          syncCustomLogoUI(currentCustomLogo);
+          onFormChange();
+          showToast('¡Escudo/Logo de unidad cargado con éxito!', 'success');
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if (btnRemove) {
+      btnRemove.addEventListener('click', () => {
+        currentCustomLogo = '';
+        if (fileInput) fileInput.value = '';
+        syncCustomLogoUI('');
+        onFormChange();
+        showToast('Logotipo restablecido al oficial.', 'info');
       });
     }
   }
@@ -6241,6 +8590,71 @@ const App = (() => {
       btnPrint.addEventListener('click', () => {
         window.print();
       });
+    }
+  }
+
+  function setupOrientationSelector() {
+    const btnH = document.getElementById('btnOrientH');
+    const btnV = document.getElementById('btnOrientV');
+    const selOrient = document.getElementById('selOrientation');
+
+    function applyOrientation(orient) {
+      currentOrientation = orient;
+      if (selOrient) selOrient.value = orient;
+      syncOrientationButtons(orient);
+      onFormChange();
+      updateScales();
+    }
+
+    if (btnH) btnH.addEventListener('click', () => applyOrientation('horizontal'));
+    if (btnV) btnV.addEventListener('click', () => applyOrientation('vertical'));
+    if (selOrient) selOrient.addEventListener('change', (e) => applyOrientation(e.target.value));
+  }
+
+  function syncOrientationButtons(orient) {
+    const btnH = document.getElementById('btnOrientH');
+    const btnV = document.getElementById('btnOrientV');
+    if (btnH && btnV) {
+      if (orient === 'vertical') {
+        btnV.classList.add('active');
+        btnH.classList.remove('active');
+      } else {
+        btnH.classList.add('active');
+        btnV.classList.remove('active');
+      }
+    }
+  }
+
+  function setupPwaInstall() {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const btnInstall = document.getElementById('btnInstallPwa');
+      if (btnInstall) btnInstall.style.display = 'inline-flex';
+    });
+
+    const btnInstall = document.getElementById('btnInstallPwa');
+    if (btnInstall) {
+      btnInstall.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            showToast('¡TacticalMedCard instalada en tu dispositivo!', 'success');
+          }
+          deferredPrompt = null;
+        } else {
+          const pwaModal = document.getElementById('pwaInstallModal');
+          if (pwaModal) pwaModal.style.display = 'flex';
+        }
+      });
+    }
+
+    const btnClosePwa = document.getElementById('btnClosePwaModal');
+    const pwaModal = document.getElementById('pwaInstallModal');
+    if (btnClosePwa && pwaModal) {
+      btnClosePwa.addEventListener('click', () => { pwaModal.style.display = 'none'; });
+      pwaModal.addEventListener('click', (e) => { if (e.target === pwaModal) pwaModal.style.display = 'none'; });
     }
   }
 
